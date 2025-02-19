@@ -11,9 +11,7 @@ export const syncUserCreation = inngest.createFunction(
     id: "sync-user-from-clerk", // The unique ID for this function
     event: "clerk/user.created", // The event you are listening for
   },
-  // Define the function handler for the event
   async ({ event }) => {
-    // You can access event details like event.data here
     const { id, first_name, last_name, email_addresses, image_url } = event.data;
     const userData = {
       _id: id,
@@ -30,10 +28,9 @@ export const syncUserCreation = inngest.createFunction(
 export const syncUserUpdation = inngest.createFunction(
   {
     id: 'update-user-from-clerk',
-    event: 'clerk/user.updated' // Fixed the typo here
+    event: 'clerk/user.updated' // Ensure correct event name
   },
   async ({ event }) => {
-    // You can access event details like event.data here
     const { id, first_name, last_name, email_addresses, image_url } = event.data;
     const userData = {
       _id: id,
@@ -42,7 +39,7 @@ export const syncUserUpdation = inngest.createFunction(
       imageUrl: image_url
     };
     await connectDB();
-    await User.findByIdAndUpdate(id, userData); // Fixed the typo here
+    await User.findByIdAndUpdate(id, userData);
   }
 );
 
@@ -50,7 +47,7 @@ export const syncUserUpdation = inngest.createFunction(
 export const syncUserDeletion = inngest.createFunction(
   {
     id: 'delete-user-with-clerk',
-    event: 'clerk/user.deleted'
+    event: 'clerk/user.deleted' // Ensure correct event name
   },
   async ({ event }) => {
     const { id } = event.data;
